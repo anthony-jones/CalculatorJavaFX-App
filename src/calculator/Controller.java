@@ -1,6 +1,7 @@
 package calculator;
 
 import javafx.scene.control.Label;
+
 import java.util.ArrayList;
 
 public class Controller {
@@ -19,35 +20,44 @@ public class Controller {
     public void oneButtonPressed() {
         this.numButtonUpdate("1");
     }
+
     public void twoButtonPressed() {
         this.numButtonUpdate("2");
     }
+
     public void threeButtonPressed() {
         this.numButtonUpdate("3");
     }
+
     public void fourButtonPressed() {
         this.numButtonUpdate("4");
     }
+
     public void fiveButtonPressed() {
         this.numButtonUpdate("5");
     }
+
     public void sixButtonPressed() {
         this.numButtonUpdate("6");
     }
+
     public void sevenButtonPressed() {
         this.numButtonUpdate("7");
     }
+
     public void eightButtonPressed() {
         this.numButtonUpdate("8");
     }
+
     public void nineButtonPressed() {
         this.numButtonUpdate("9");
     }
+
     public void zeroButtonPressed() {
         this.numButtonUpdate("0");
     }
 
-    private void numButtonUpdate(String num){
+    private void numButtonUpdate(String num) {
         this.tempEntry.add(num);
         this.lastButtonPressed = num;
         updateDisplayWithNewDigit();
@@ -57,23 +67,28 @@ public class Controller {
     public void addButtonPressed() {
         this.operatorButtonUpdate("+");
     }
+
     public void subButtonPressed() {
         this.operatorButtonUpdate("-");
     }
+
     public void multButtonPressed() {
         this.operatorButtonUpdate("*");
     }
+
     public void divButtonPressed() {
         this.operatorButtonUpdate("/");
     }
 
-    private void operatorButtonUpdate(String operator){
-        if(lastButtonIsNotOperator()){
+    private void operatorButtonUpdate(String operator) {
+        if (lastButtonIsNotOperator()) {
             storeTempToFull();
-            this.fullEntry.add(operator);
-            this.lastButtonPressed = operator;
             resetDisplay();
+        } else {
+            this.fullEntry.remove(this.fullEntry.size() - 1);
         }
+        this.fullEntry.add(operator);
+        this.lastButtonPressed = operator;
     }
 
     public void equalsButtonPressed() {
