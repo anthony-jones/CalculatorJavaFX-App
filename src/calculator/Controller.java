@@ -1,7 +1,6 @@
 package calculator;
 
 import javafx.scene.control.Label;
-
 import java.util.ArrayList;
 
 public class Controller {
