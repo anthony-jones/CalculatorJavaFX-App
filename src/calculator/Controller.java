@@ -1,7 +1,7 @@
 package calculator;
 
 import javafx.scene.control.Label;
-
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Controller {
@@ -57,12 +57,6 @@ public class Controller {
         this.numButtonUpdate("0");
     }
 
-    private void numButtonUpdate(String num) {
-        this.tempEntry.add(num);
-        this.lastButtonPressed = num;
-        updateDisplayWithNewDigit();
-    }
-
     // Operator button actions
     public void addButtonPressed() {
         this.operatorButtonUpdate("+");
@@ -80,17 +74,7 @@ public class Controller {
         this.operatorButtonUpdate("/");
     }
 
-    private void operatorButtonUpdate(String operator) {
-        if (lastButtonIsNotOperator()) {
-            storeTempToFull();
-            resetDisplay();
-        } else {
-            this.fullEntry.remove(this.fullEntry.size() - 1);
-        }
-        this.fullEntry.add(operator);
-        this.lastButtonPressed = operator;
-    }
-
+    // Equal button action
     public void equalsButtonPressed() {
         if (!this.lastButtonPressed.equals("=")) {
             storeTempToFull();
@@ -118,18 +102,52 @@ public class Controller {
             this.fullEntry.clear();
             this.tempEntry.clear();
             this.fullEntry.add(String.valueOf(result));
-            this.digitDisplay.setText(String.valueOf(result));
+
+            DecimalFormat numberFormat = new DecimalFormat(("#.#########"));
+            this.digitDisplay.setText(String.valueOf(numberFormat.format(result)));
             this.lastButtonPressed = "=";
         }
     }
 
+    // Negation button action
+    public void negationButtonPressed() {
+        if (!this.tempEntry.isEmpty() || lastButtonIsNotOperator()) {
+            this.operatorButtonUpdate("*");
+            this.numButtonUpdate("-1");
+            this.equalsButtonPressed();
+        }
+    }
+
+    // Decimal button action
+    public void decimalButtonPressed() {
+        this.numButtonUpdate(".");
+    }
+
+    // Clear button action
     public void clearButtonPressed() {
         resetDisplay();
         this.tempEntry.clear();
         this.fullEntry.clear();
     }
 
-    // Internal functions
+    // Private internal functions
+    private void numButtonUpdate(String num) {
+        this.tempEntry.add(num);
+        this.lastButtonPressed = num;
+        updateDisplayWithNewDigit();
+    }
+
+    private void operatorButtonUpdate(String operator) {
+        if (lastButtonIsNotOperator()) {
+            storeTempToFull();
+            resetDisplay();
+        } else {
+            this.fullEntry.remove(this.fullEntry.size() - 1);
+        }
+        this.fullEntry.add(operator);
+        this.lastButtonPressed = operator;
+    }
+
     private void updateDisplayWithNewDigit() {
         StringBuilder newDisplay = new StringBuilder();
         for (String digit : this.tempEntry) {
